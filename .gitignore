@@ -1,0 +1,78 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Generated files
+*.wasm
+*.wasm.map
+*.js.map
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Dependencies
+node_modules/
+
+# Cache directories
+.cache/
+*.cache
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Compiled Object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Static libraries
+*.a
+*.lib
+
+# Shared libraries
+*.so
+*.dylib
+*.dll
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# Emscripten
+*.bc
+*.mem
+*.data
+*.js.mem
+
+# Package managers
+package-lock.json
+yarn.lock
