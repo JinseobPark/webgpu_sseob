@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(emcmake cmake:*)",
-      "Bash(emcc:*)"
-    ],
-    "deny": []
-  }
-}
