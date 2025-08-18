@@ -1,6 +1,8 @@
 #include <webgpu/webgpu.h>
 #include <emscripten/html5.h>
+#include <emscripten/emscripten.h>
 #include <cassert>
+#include <cstdio>
 
 static WGPUDevice device;
 static WGPUSwapChain swapchain;
@@ -11,7 +13,7 @@ EM_BOOL frame(double, void*) {
   WGPURenderPassColorAttachment color{};
   color.view = view;
   color.loadOp = WGPULoadOp_Clear;
-  color.clearValue = {0.1, 0.12, 0.16, 1.0};
+  color.clearValue = {0.3, 0.9, 0.4, 1.0}; // 밝은 초록색
   color.storeOp = WGPUStoreOp_Store;
 
   WGPURenderPassDescriptor rp{};
@@ -28,7 +30,9 @@ EM_BOOL frame(double, void*) {
 }
 
 int main() {
-  // 1) 어댑터/디바이스 요청 (브라우저가 제공하는 WebGPU)
+  printf("Starting WebGPU Sseob Renderer...\n");
+  
+  // 1) 어댑터/디바이스 요청
   WGPUInstance instance = wgpuCreateInstance(nullptr);
   WGPURequestAdapterOptions opts{};
   WGPUAdapter adapter = nullptr;
@@ -39,25 +43,31 @@ int main() {
     }, &adapter);
 
   assert(adapter);
+  printf("WebGPU adapter acquired!\n");
+  
   wgpuAdapterRequestDevice(adapter, nullptr,
     [](WGPURequestDeviceStatus s, WGPUDevice d, const char*, void* ud){
       if (s == WGPURequestDeviceStatus_Success) *(WGPUDevice*)ud = d;
     }, &device);
 
   assert(device);
+  printf("WebGPU device acquired!\n");
 
   // 2) 캔버스 스왑체인
-  EmscriptenWebGLContextAttributes attr; emscripten_webgl_init_context_attributes(&attr);
-  // 캔버스 핸들로부터 프레젠트 표면은 브라우저가 관리. Emscripten은 swapchain 유틸 제공.
-  WGPUSurface surface = nullptr; // 최신 브리지에선 canvas와 surface 연결이 내부 처리
+  WGPUSurface surface = nullptr;
   WGPUSwapChainDescriptor scd{};
   scd.usage = WGPUTextureUsage_RenderAttachment;
   scd.format = WGPUTextureFormat_BGRA8Unorm;
-  scd.width  = 800; scd.height = 600;
+  scd.width  = 800; 
+  scd.height = 600;
   scd.presentMode = WGPUPresentMode_Fifo;
 
   swapchain = wgpuDeviceCreateSwapChain(device, surface, &scd);
+  assert(swapchain);
+  printf("SwapChain created!\n");
 
   emscripten_request_animation_frame_loop(frame, nullptr);
+
+  printf("WebGPU Sseob Renderer started successfully!\n");
   return 0;
 }

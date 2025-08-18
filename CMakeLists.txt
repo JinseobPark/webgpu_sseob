@@ -20,16 +20,16 @@ add_executable(webgpu
 # 공통 컴파일 옵션
 target_compile_options(webgpu PRIVATE
   -std=c++20
-  -sUSE_WEBGPU=1      # WebGPU 브리지 활성화
+  -sUSE_WEBGPU=1      # 기존 WebGPU 브리지 사용
 )
 
 # 공통 링크 옵션
 # 출력 파일을 web/index.js로 지정 (index.js + index.wasm + 소스맵 생성)
 target_link_options(webgpu PRIVATE
   -sUSE_WEBGPU=1
-  -sASSERTIONS=2
-  -sSAFE_HEAP=1
-  -o ${CMAKE_SOURCE_DIR}/web/index.js
+  -sASSERTIONS=1
+  -sALLOW_MEMORY_GROWTH=1
+  -o ${CMAKE_CURRENT_SOURCE_DIR}/web/index.js
 )
 
 # 구성별 최적화/디버그 옵션
